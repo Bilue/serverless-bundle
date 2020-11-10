@@ -301,6 +301,8 @@ function alias() {
   }, {});
 }
 
+const outputPath = path.join(this.serverless.config.servicePath, '.webpack');
+
 module.exports = ignoreWarmupPlugin({
   entry: resolveEntriesPath(slsw.lib.entries),
   target: "node",
@@ -310,6 +312,12 @@ module.exports = ignoreWarmupPlugin({
   devtool: ENABLE_SOURCE_MAPS ? "source-map" : false,
   externals: computedExternals,
   mode: isLocal ? "development" : "production",
+  output:{
+    libraryTarget: 'commonjs',
+    path: outputPath,
+    libraryTarget: 'umd',
+    filename: '[name].js'
+  }
   performance: {
     // Turn off size warnings for entry points
     hints: false
